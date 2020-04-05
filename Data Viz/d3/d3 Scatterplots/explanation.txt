@@ -1,0 +1,4 @@
+a2) It would seem the Plasma Glucose vs. Insulin feature combination is better at separating the instances. It is scaled linearly in a way that separates them well whereas the other one has just one large cluster. 
+
+c)Square root scaling is used to normalize Poisson distributions and can improve symmetry of the graph. Log scaling is used also to normalize a skewed distribution, but particularly one skewed with large values.
+

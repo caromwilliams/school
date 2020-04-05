@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset='utf-8' />
+    <script src="../lib/d3.v3.min.js" charset="utf-8"></script>
+</head>
+ <style>
+
+    body { font: 12px sans-serif;}
+
+  path {
+    stroke: black;
+    stroke-width: 2;
+    fill: none;
+  }
+
+  .axis path,
+                        .axis line {
+                                fill: none;
+                                stroke: black;
+                                shape-rendering: crispEdges;
+                        }
+
+                        .axis text {
+                                font-family: sans-serif;
+                                font-size: 11px;
+                        }
+
+
+  </style>
+
+<body>
+
+    <script>
+
+var data = [{club:'Manchester United',total:{year_2013:3165, year_2014:2810, year_2015:3100, year_2016:3317, year_2017:4583}},
+{club:'Chelsea',total:{year_2013:901, year_2014:868, year_2015:1370, year_2016:1661, year_2017:1845}},
+{club:'Manchester City',total:{year_2013:689, year_2014:863, year_2015:1380, year_2016:1921, year_2017:2083}},
+{club:'Liverpool',total:{year_2013:651, year_2014:704, year_2015:982, year_2016:1548, year_2017:1492}},
+{club:'Arsenal',total:{year_2013:1326, year_2014:1331, year_2015:1310, year_2016:2017, year_2017:1932}}];
+
+var data3= []
+data.forEach(function(d) {
+    data3.push({
+      club: d.club,
+      year_2013: d.total.year_2013,
+      year_2014: d.total.year_2014,
+      year_2015: d.total.year_2015,
+      year_2016: d.total.year_2016,
+      year_2017: d.total.year_2017,
+  });});
+
+var data2 = data3.sort(function(b, a) {
+        return (a.year_2013+a.year_2014+a.year_2015+a.year_2016+a.year_2017) - (b.year_2013+b.year_2014+b.year_2015+b.year_2016+b.year_2017);
+      });
+
+var margin = {t: 50, r: 500, b: 50, l: 150};
+
+var width = 1500 - margin.l - margin.r;
+var height = 500 - margin.t - margin.b;
+
+var svg = d3.select("body").append("svg")
+          .attr("width", width + margin.l + margin.r)
+          .attr("height", height + margin.t + margin.b)
+          .append("g")
+          .attr("transform", "translate(" + margin.l + "," + margin.t + ")");
+
+var x = d3.scale.linear()
+            .range([0, width])
+            .domain([0, d3.max(data2, function (d) {
+                return (d.year_2013+d.year_2014+d.year_2015+d.year_2016+d.year_2017);})]);
+
+var y = d3.scale.ordinal()
+            .rangeBands([height, 0])
+            .domain(data2.map(function (d) {return d.club; }));
+
+
+var bars = svg.selectAll(".bar")
+        .data(data2)
+        .enter()
+        .append("rect")
+        .attr("class", "bar");
+
+bars.attr("y", function (d) {return y(d.club);})
+        .attr("height", y.rangeBand()-3)
+        .attr("x", 0)
+        .attr("width", function (d) {
+                return x(d.year_2013+d.year_2014+d.year_2015+d.year_2016+d.year_2017);})
+        .attr("fill", "gray")
+        .on("mouseover", function (d) {
+        d3.select(this)
+        .attr("fill", "black");
+        newdata = [];
+        newdata.push(d3.select(this).data());
+
+
+        var data = (d3.values((newdata[0][0]))).slice(1,6);
+
+
+          var   x = d3.scale.linear().range([0, 250]);
+          var   y = d3.scale.linear().range([200, 0]);
+
+          var ticks = [2013,2014,2015,2016,2017]
+            var xAxis = d3.svg.axis().scale(x)
+            .ticks(4)
+            .tickFormat(function(d,i){ return ticks[i] })
+            .orient("bottom");
+
+            var yAxis = d3.svg.axis().scale(y)
+            .orient("left");
+
+            var valueline = d3.svg.line()
+            .x(function(d,i) { return x(i); })
+            .y(function(d) { return y(d); });
+
+              x.domain([0, data.length]);
+              y.domain([d3.min(data, function(d) { return (d); }), d3.max(data, function(d)               { return (d); })]);
+
+                svg.append("path")
+                .attr("class", "line")
+                .attr("class","delete_line")
+                .attr("d", valueline(data))
+                .attr("transform", "translate(" + (width) + "," + (-30) + ")");
+
+              svg.append("g")
+              .attr("class", "x axis")
+              .attr("class", "delete_x_axis")
+              .attr("transform", "translate(" + (width) + "," + (170) + ")")
+              .call(xAxis);
+
+            svg.append("text")
+              .attr("class", "label")
+              .attr("class", "delete_x_label")
+              .attr("transform", "translate(" + (width+250)+ "," + (200) + ")")
+              .style("text-anchor", "middle")
+              .text("Year");
+
+              svg.append("g")
+              .attr("class", "y axis")
+              .attr("class", "delete_y_axis")
+              .attr("transform", "translate(" + (width) + "," + (-30) + ")")
+              .call(yAxis);
+
+          svg.append("text")
+            .attr("class", "label")
+            .attr("class", "delete_y_label")
+              .attr("transform", "translate(" + (width-25) + "," + (-40) + ")")
+          .style("text-anchor", "middle")
+          .text("Value");})
+
+          .on("mouseout", function (d){
+        d3.select(this).attr("fill", "gray");
+        svg.select(".delete_line").remove();
+        svg.select(".delete_x_axis").remove();
+        svg.select(".delete_x_label").remove();
+        svg.select(".delete_y_axis").remove();
+        svg.select(".delete_y_label").remove();
+    });
+
+svg.append("g").selectAll("text")
+      .data(data2)
+      .enter()
+      .append("text")
+      .text(function (d) {return "$" + (d.year_2013+d.year_2014+d.year_2015+d.year_2016+d.year_2017);})
+      .attr("x", 10)
+      .attr("y", function(d, i){return (y(d.club)+(y.rangeBand()/2)+4);})
+      .attr("fill", "white")
+      .style("font-family", "sans-serif")
+      .attr("font-size", "12px");
+
+svg.append("g").selectAll("text")
+      .data(data2)
+      .enter()
+      .append("text")
+      .text(function (d) {return d.club;})
+      .attr("x", -10)
+      .attr("y", function(d, i){return (y(d.club)+(y.rangeBand()/2)+4);})
+      .attr("fill", "black")
+      .style("font-family", "sans-serif")
+      .attr("font-size", "12px")
+      .style("text-anchor", "end");
+
+</script>
+</body>
+</html>

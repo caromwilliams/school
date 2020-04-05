@@ -1,0 +1,8 @@
+Average node degree: 1.088
+average number of edges (or connections/neighbors) of the nodes in the graph
+
+Diameter of the graph: 8
+the shortest distance between the two farthest nodes
+
+Average path length: 4.241
+average distance of all nodes from each other, useful for efficiency testing

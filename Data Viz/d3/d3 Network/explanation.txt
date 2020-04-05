@@ -1,0 +1,1 @@
+The nodes are scaled linearly using d.weight * 2.5 so all the nodes would scale the same way.

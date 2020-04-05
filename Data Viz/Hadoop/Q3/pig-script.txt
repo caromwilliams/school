@@ -1,0 +1,7 @@
+bigrams = LOAD 's3://cse6242oan-2018spring-aws-big/*' AS (bigram:chararray, year:int, occurrences:int, books:int);
+Q = FILTER bigrams BY (occurrences >= 200) AND (books >= 10);
+R = group Q BY bigram;
+X = FOREACH R GENERATE $0 AS bigram, (double)SUM($1.occurrences)/(double)SUM($1.books) as avgOccurrence;
+Y = ORDER X BY avgOccurrence DESC, bigram ASC;
+Z = limit Y 10;
+STORE Z INTO 's3://cse6242oan--cwilliams387/output' USING PigStorage ('\t');

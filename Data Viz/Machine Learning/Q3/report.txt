@@ -1,0 +1,53 @@
+Section A
+1.
+-K 0 -M 1.0 -V 0.001 -S 1
+Time taken to build model: 0.26 seconds
+Overall accuracy: 78.5605 %
+Confusion Matrix:
+   a   b   <-- classified as
+ 320  37 |   a = 0
+ 103 193 |   b = 1
+
+2.
+-R 1.0E-8 -M -1
+Time taken to build model: 1.6 seconds
+Overall accuracy: 75.1914 %
+Confusion Matrix:
+   a   b   <-- classified as
+  275  82 |   a = 0
+  80 216 |   b = 1
+3.
+-L 0.3 -M 0.2 -N 10 -V 0 -S 0 -E 20 -H
+Time taken to build model: 76.48 seconds
+Overall accuracy: 77.9479 %
+Confusion Matrix:
+   a   b   <-- classified as
+  282  75 |   a = 0
+  69 227 |   b = 1
+
+4. 
+-F 0 -L 0.01 -R 1.0E-4 -E 500 -C 0.001 -S 1
+Time taken to build model: 0.69 seconds
+Overall accuracy: 85.4518 %
+Confusion Matrix:
+   a   b   <-- classified as
+  308  49 |   a = 0
+  46 250 |   b = 1
+
+5. 
+-P 100 -S 1 -I 10 -W
+Time taken to build model: 0.04 seconds
+Overall accuracy: 86.5237 %
+Confusion Matrix:
+   a   b   <-- classified as
+  288  69 |   a = 0
+  19 277 |   b = 1
+
+Section B
+1a.
+
+        I modified the number of iterations.
+
+        Runtime increased by  0.04 seconds.
+
+        It was because it's a more complex model now, R uses more default iterations than the 10 on weka, though this actually caused it to be less accurate.

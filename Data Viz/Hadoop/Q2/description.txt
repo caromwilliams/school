@@ -1,0 +1,5 @@
+Line 17 (val file) imports file
+Line 19 (val source) takes only source and weight column from input and puts them into a data frame, then filters for weights >= 5, then groups by source and sums weights for each source node and makes each value negative
+Line 25 (val target) takes only target and weight columns from input and puts them into a data frame, then filters for weights >= 5, then groups by target and sums weights for each target node
+Line 31 (val result) appends source and target data frames and groups by columns with targets and sources and finds sum of weights for each node
+Line 36 (result.map) formats output

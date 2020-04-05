@@ -1,0 +1,1 @@
+Used FruchtermanReingold layout after first clustering using ForceAtlas. This allowed me to see natural groupings I colored based on their cluster connections. I set labels to show with min degree of 0.1 and max degree of 3 which looks to show the most weighted (important/connected) nodes the best. 
